@@ -51,7 +51,7 @@ def read_file(filename):
     """
     try:
         fp = open(filename)
-        L = fp.readlines()
+        L = fp.readlines()  #reading all the lines in the file
     except IOError:
         print "Error opening or reading input file: ",filename
         sys.exit()
@@ -83,16 +83,16 @@ def get_words_from_string(line):
     """
     word_list = []          # accumulates words in line
     character_list = []     # accumulates characters in word
-    for c in line:
+    for c in line:                              
         if c.isalnum():
-            character_list.append(c)
-        elif len(character_list)>0:
-            word = string.join(character_list,"")
-            word = string.lower(word)
-            word_list.append(word)
-            character_list = []
-    if len(character_list)>0:
-        word = string.join(character_list,"")
+            character_list.append(c)                    # if it's an alphabet or number, append to character_list array, form it to a "word"
+        elif len(character_list)>0:                     # if not alphabet or number && character_list is not empty (done collecting char in a word)
+            word = string.join(character_list,"")       # add a "" to the end of the "word" consists of everything from character_list[]
+            word = string.lower(word)                   # use all lower cases
+            word_list.append(word)                      # add the "word" to word_list[]
+            character_list = []                         # reinitialize character_list for the next "word"
+    if len(character_list)>0:                   # done with the word 
+        word = string.join(character_list,"")           # why is this neccessary
         word = string.lower(word)
         word_list.append(word)
     return word_list
@@ -106,13 +106,13 @@ def count_frequency(word_list):
     """
     L = []
     for new_word in word_list:
-        for entry in L:
-            if new_word == entry[0]:
-                entry[1] = entry[1] + 1
+        for entry in L:             # for every entry[] in L[], 
+            if new_word == entry[0]:        # check if new_word can be matched to any entry[0] in L[]
+                entry[1] = entry[1] + 1     # if entry is matched, add 1 to entry[1](the count of the entry[0])
                 break
         else:
-            L.append([new_word,1])
-    return L
+            L.append([new_word,1])          # if no match of entry in L[], add new entry to L[] with entry[1](count of the entry[0]) to 1
+    return L        # L[] is a 2 dimensional array {(a,1003), (an, 600), (boy, 3)....}
 
 ###############################################################
 # Operation 4: sort words into alphabetic order             ###
@@ -126,14 +126,14 @@ def insertion_sort(A):
     modified to adjust for fact that Python arrays use 
     0-indexing.
     """
-    for j in range(len(A)):
-        key = A[j]
+    for j in range(len(A)):         # to iterate over the indices of a sequence, combine range() and len(), j would start with 0(due to the range() use)
+        key = A[j]                  # A[0], A[1], A[2]
         # insert A[j] into sorted sequence A[0..j-1]
-        i = j-1
-        while i>-1 and A[i]>key:
-            A[i+1] = A[i]
-            i = i-1
-        A[i+1] = key
+        i = j-1                     # set i to the last sorted list
+        while i>-1 and A[i]>key:    # starting from the end of the sorted list going back(large to small), while current "key" still larger than A[i], keep going toward A[0]
+            A[i+1] = A[i]           # move A[i] that is greater than key to A[i+1] to give in space for key between A[0] and A[i]
+            i = i-1                 # i going forward toward 0
+        A[i+1] = key                # found the i where A[i] is smaller than key and set A[i+1] to key
     return A
     
 #############################################
@@ -146,8 +146,8 @@ def word_frequencies_for_file(filename):
     """
 
     line_list = read_file(filename)
-    word_list = get_words_from_line_list(line_list)
-    freq_mapping = count_frequency(word_list)
+    word_list = get_words_from_line_list(line_list)         # returns an array
+    freq_mapping = count_frequency(word_list)               # return 2 dimensional array with (words, count)
     insertion_sort(freq_mapping)
 
     print "File",filename,":",
@@ -165,21 +165,21 @@ def inner_product(L1,L2):
     Example: inner_product([["and",3],["of",2],["the",5]],
                            [["and",4],["in",1],["of",1],["this",2]]) = 14.0 
     """
-    sum = 0.0
+    sum = 0.0           # floating point
     i = 0
     j = 0
-    while i<len(L1) and j<len(L2):
+    while i<len(L1) and j<len(L2):                  # go through every word in both files
         # L1[i:] and L2[j:] yet to be processed
-        if L1[i][0] == L2[j][0]:
+        if L1[i][0] == L2[j][0]:                    # comparing the words
             # both vectors have this word
-            sum += L1[i][1] * L2[j][1]
+            sum += L1[i][1] * L2[j][1]              # Distance Metric, product of the counts
             i += 1
             j += 1
         elif L1[i][0] < L2[j][0]:
-            # word L1[i][0] is in L1 but not L2
+            # word L1[i][0] is in L1 but not L2  (L1[i][1] * L2[j][1]=0)
             i += 1
         else:
-            # word L2[j][0] is in L2 but not L1
+            # word L2[j][0] is in L2 but not L1  (L1[i][1] * L2[j][1]=0)
             j += 1
     return sum
 
