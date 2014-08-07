@@ -135,8 +135,8 @@ def merge(L,R):
     """
     Given two sorted sequences L and R, return their merge.
     """
-    i = 0
-    j = 0
+    i = 0       # for L[]
+    j = 0       # for R[]
     answer = []
     while i<len(L) and j<len(R):
         if L[i]<R[j]:
@@ -145,9 +145,9 @@ def merge(L,R):
         else:
             answer.append(R[j])
             j += 1
-    if i<len(L):
+    if i<len(L):      # L[] still have leftovers
         answer.extend(L[i:])
-    if j<len(R):
+    if j<len(R):      # R[] still have leftovers
         answer.extend(R[j:])
     return answer
 

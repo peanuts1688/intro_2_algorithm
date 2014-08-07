@@ -84,7 +84,7 @@ def get_words_from_line_list(L):
 # global variables needed for fast parsing
 # translation table maps upper case to lower case and punctuation to spaces
 translation_table = string.maketrans(string.punctuation+string.uppercase,
-                                     " "*len(string.punctuation)+string.lowercase)
+                                     " "*len(string.punctuation)+string.lowercase)      #define a function to return string without punctuation nor upper cases
 
 def get_words_from_string(line):
     """
@@ -95,8 +95,8 @@ def get_words_from_string(line):
     Output: a list of strings 
               (each string is a sequence of alphanumeric characters)
     """
-    line = line.translate(translation_table)
-    word_list = line.split()
+    line = line.translate(translation_table)    # eliminate punctuation and upper case
+    word_list = line.split()    # seperate string to list, with default " " being deliminator 
     return word_list
 
 ##############################################
@@ -148,7 +148,7 @@ def word_frequencies_for_file(filename):
     line_list = read_file(filename)
     word_list = get_words_from_line_list(line_list)
     freq_mapping = count_frequency(word_list)
-    insertion_sort(freq_mapping)
+    insertion_sort(freq_mapping)      # θ(n^2), replace with merge sort θ(nlg(n))
 
     print "File",filename,":",
     print len(line_list),"lines,",

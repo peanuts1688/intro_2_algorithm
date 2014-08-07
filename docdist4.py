@@ -111,9 +111,9 @@ def count_frequency(word_list):
     """
     Return a list giving pairs of form: (word,frequency)
     """
-    D = {}
+    D = {}    # use dictionary{} instead of list[] for faster result
     for new_word in word_list:
-        if D.has_key(new_word):
+        if D.has_key(new_word):   # using hash table "constant time lookup(len(word_list*look_up_time)) instead of the "quadratic running time θ(n*d)",replaced one of our quadratic time routines with a linear-time!
             D[new_word] = D[new_word]+1
         else:
             D[new_word] = 1

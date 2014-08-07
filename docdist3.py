@@ -74,7 +74,8 @@ def get_words_from_line_list(L):
     for line in L:
         words_in_line = get_words_from_string(line)
         # Using "extend" is much more efficient than concatenation here:
-        word_list.extend(words_in_line)
+        # word_list = word_list + words_in_line
+        word_list.extend(words_in_line)       # only consider words_in_line part when append, as oppose to the original method to copy both word_list and words_in_line
     return word_list
 
 def get_words_from_string(line):
@@ -109,9 +110,9 @@ def count_frequency(word_list):
     """
     Return a list giving pairs of form: (word,frequency)
     """
-    L = []
+    L = []        
     for new_word in word_list:
-        for entry in L:
+        for entry in L:     # for n words and d distinct words, θ(n*d). If all words distinct, θ(n^2), it's quadratic(n^2) running time
             if new_word == entry[0]:
                 entry[1] = entry[1] + 1
                 break

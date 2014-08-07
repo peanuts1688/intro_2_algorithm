@@ -69,7 +69,7 @@ def get_words_from_line_list(L):
     word_list = []
     for line in L:
         words_in_line = get_words_from_string(line)
-        word_list = word_list + words_in_line
+        word_list = word_list + words_in_line   # L = L1 + L2 takes time proportional to | L1 | + | L2 | (|absolute| meaning in disregard of the count of the word).1 + 2 + 3 + ... + n = n(n+1)/2 = θ(n^2)
     return word_list
 
 def get_words_from_string(line):
